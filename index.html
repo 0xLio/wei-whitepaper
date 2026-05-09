@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WEI — 白皮书</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <style>
+      :root {
+        --bg: #fdfcf8;
+        --fg: #1a1a1a;
+        --muted: #6b6b6b;
+        --line: #c8c4bc;
+        --grid: rgba(0, 0, 0, 0.06);
+        --mint: #48c0a4;
+        --mint-bg: rgba(72, 192, 164, 0.08);
+        --burn: #f26d7d;
+        --burn-bg: rgba(242, 109, 125, 0.08);
+        --font: "JetBrains Mono", "Noto Sans SC", ui-monospace, system-ui, sans-serif;
+      }
+
+      html[lang="zh-CN"] .i18n-en {
+        display: none !important;
+      }
+
+      html[lang="en"] .i18n-zh {
+        display: none !important;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font);
+        font-size: 15px;
+        line-height: 1.65;
+        color: var(--fg);
+        background-color: var(--bg);
+        background-image:
+          linear-gradient(var(--grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+
+      a {
+        color: var(--mint);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 20px 64px;
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 32px;
+        align-items: start;
+      }
+
+      @media (max-width: 900px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+        .toc {
+          position: static !important;
+          border-right: none !important;
+          padding-right: 0 !important;
+          margin-bottom: 8px;
+        }
+      }
+
+      header.site {
+        border-bottom: 1px solid var(--line);
+        background: var(--bg);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+
+      .header-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 18px;
+      }
+
+      .brand span.sub {
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-left: auto;
+      }
+
+      .btn {
+        font-family: var(--font);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 8px 14px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--fg);
+        cursor: pointer;
+        border-radius: 0;
+      }
+
+      .btn:hover {
+        border-color: var(--fg);
+      }
+
+      .btn-lang {
+        border-color: var(--mint);
+        background: var(--mint-bg);
+        min-width: 120px;
+      }
+
+      .btn-lang:hover {
+        background: rgba(72, 192, 164, 0.18);
+      }
+
+      .btn-lang .sep {
+        opacity: 0.45;
+        padding: 0 4px;
+        font-weight: 400;
+      }
+
+      .toc {
+        position: sticky;
+        top: 72px;
+        padding: 16px 0 16px 0;
+        border-right: 1px solid var(--line);
+        padding-right: 16px;
+      }
+
+      .toc-title {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 12px;
+      }
+
+      .toc ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .toc li {
+        margin-bottom: 8px;
+      }
+
+      .toc a {
+        font-size: 12px;
+        color: var(--muted);
+        display: block;
+        padding: 4px 0;
+        border-left: 2px solid transparent;
+        padding-left: 10px;
+      }
+
+      .toc a:hover,
+      .toc a:focus {
+        color: var(--fg);
+        border-left-color: var(--mint);
+      }
+
+      main.doc {
+        min-width: 0;
+        padding-top: 24px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: rgba(253, 252, 248, 0.92);
+        padding: 20px 22px;
+        margin-bottom: 24px;
+      }
+
+      h1.doc-title {
+        margin: 0 0 8px;
+        font-size: clamp(32px, 5vw, 44px);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .tagline {
+        margin: 0 0 28px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      h2 {
+        margin: 36px 0 14px;
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 8px;
+      }
+
+      h2:first-of-type {
+        margin-top: 0;
+      }
+
+      p {
+        margin: 0 0 14px;
+      }
+
+      ul {
+        margin: 0 0 14px;
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 8px;
+      }
+
+      strong {
+        font-weight: 700;
+      }
+
+      .formula-label {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 18px 0 8px;
+        letter-spacing: 0.06em;
+      }
+
+      .math-block {
+        margin: 12px 0 20px;
+        padding: 14px 16px;
+        border: 1px dashed var(--line);
+        background: #faf8f4;
+        overflow-x: auto;
+      }
+
+      .math-block .katex-display {
+        margin: 0;
+      }
+
+      hr.sep {
+        border: none;
+        border-top: 1px solid var(--line);
+        margin: 28px 0;
+      }
+
+      .two-col-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        padding: 14px 16px;
+        background: #faf8f4;
+      }
+
+      .metric label {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .metric .value-mint {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--mint);
+      }
+
+      .metric .value-burn {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--burn);
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0 20px;
+      }
+
+      .badge {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+      }
+
+      .badge.mint {
+        border-color: var(--mint);
+        color: var(--mint);
+        background: var(--mint-bg);
+      }
+
+      .badge.burn {
+        border-color: var(--burn);
+        color: var(--burn);
+        background: var(--burn-bg);
+      }
+
+      table.simple {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        margin: 16px 0 24px;
+        border: 1px solid var(--line);
+      }
+
+      table.simple th,
+      table.simple td {
+        border: 1px solid var(--line);
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      table.simple th {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: #f3f1eb;
+      }
+
+      .manifesto {
+        margin: 24px 0;
+        padding: 18px 20px;
+        border: 1px solid var(--fg);
+        background: #fffefa;
+      }
+
+      .manifesto p {
+        margin: 0 0 10px;
+        font-weight: 600;
+      }
+
+      .manifesto p:last-child {
+        margin-bottom: 0;
+      }
+
+      .en-line {
+        margin-top: 14px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--mint);
+      }
+
+      .contract-grid {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+        font-size: 13px;
+      }
+
+      .contract-grid div {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 8px;
+      }
+
+      .contract-grid dt {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .contract-grid dd {
+        margin: 0;
+      }
+
+      .address {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 12px;
+        word-break: break-all;
+        color: var(--fg);
+      }
+
+      footer.site-footer {
+        max-width: 1120px;
+        margin: 48px auto 0;
+        padding: 20px;
+        border-top: 1px solid var(--line);
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="header-inner">
+        <div class="brand">
+          WEI
+          <span class="sub">
+            <span class="i18n-zh">白皮书</span><span class="i18n-en">Whitepaper</span>
+          </span>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-lang" id="lang-toggle" aria-label="切换语言 / Switch language">
+            <span translate="no">中文</span><span class="sep">/</span><span translate="no">EN</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell" id="doc-top">
+      <aside class="toc" aria-label="目录">
+        <p class="toc-title"><span class="i18n-zh">目录</span><span class="i18n-en">Contents</span></p>
+        <ul>
+          <li>
+            <a href="#preface"><span class="i18n-zh">序言</span><span class="i18n-en">Preface</span></a>
+          </li>
+          <li>
+            <a href="#philosophy"><span class="i18n-zh">核心哲学</span><span class="i18n-en">Core philosophy</span></a>
+          </li>
+          <li>
+            <a href="#birth"><span class="i18n-zh">粒子如何诞生</span><span class="i18n-en">How particles emerge</span></a>
+          </li>
+          <li>
+            <a href="#curve"><span class="i18n-zh">凝聚曲线</span><span class="i18n-en">Condensation curve</span></a>
+          </li>
+          <li>
+            <a href="#blackhole"><span class="i18n-zh">黑洞机制</span><span class="i18n-en">Black hole</span></a>
+          </li>
+          <li>
+            <a href="#reserve"><span class="i18n-zh">储备与演化</span><span class="i18n-en">Reserves &amp; evolution</span></a>
+          </li>
+          <li>
+            <a href="#manifesto"><span class="i18n-zh">意义</span><span class="i18n-en">Meaning</span></a>
+          </li>
+          <li>
+            <a href="#contract"><span class="i18n-zh">合约信息</span><span class="i18n-en">Contracts</span></a>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="doc">
+        <section class="panel" aria-labelledby="title-wei">
+          <h1 class="doc-title" id="title-wei">WEI</h1>
+          <p class="tagline">
+            <span class="i18n-zh">Ethereum 最小的基本粒子</span><span class="i18n-en">Ethereum’s smallest fundamental particle</span>
+          </p>
+
+          <div class="two-col-metrics">
+            <div class="metric">
+              <label><span class="i18n-zh">定义</span><span class="i18n-en">Definition</span></label>
+              <div class="value-mint">1 wei = 10<sup>−18</sup> ETH</div>
+            </div>
+            <div class="metric">
+              <label><span class="i18n-zh">感知单位</span><span class="i18n-en">Perceptible unit</span></label>
+              <div class="value-burn">10<sup>9</sup> wei = 1 gwei</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="preface">
+          <h2><span class="i18n-zh">序言</span><span class="i18n-en">Preface</span></h2>
+          <p>
+            <span class="i18n-zh">Ethereum 是由最微小的单位驱动的。</span><span class="i18n-en">Ethereum is driven by its smallest units.</span>
+          </p>
+          <p>
+            <span class="i18n-zh"
+              >10<sup>9</sup> 个 wei，正好凝聚成 1 gwei——链上 gas 的最小可感知单位。每一次交易、每一次合约调用、每一个区块的诞生，都是十亿 wei
+              在无声凝聚、集体发力，推动整个 Ethereum 世界持续运行。</span
+            ><span class="i18n-en"
+              >10<sup>9</sup> wei condense into 1 gwei—the smallest perceptible unit of on‑chain gas. Every transaction, every contract call, and every new block is billions of wei
+              coalescing in silence, collectively powering the Ethereum world.</span
+            >
+          </p>
+          <p><strong>WEI</strong> <span class="i18n-zh">就是这些最微小粒子的集体形态。</span><span class="i18n-en">is the collective form of these minimal particles.</span></p>
+          <p>
+            <span class="i18n-zh"
+              >它不是 meme，不是工具，而是一个纯粹的链上粒子——一个由代码完全自治、<strong>100% ETH 储备</strong>背书的 ERC-20。</span
+            ><span class="i18n-en"
+              >It is not a meme or a tool, but a pure on‑chain particle—an ERC‑20 fully autonomous in code and backed by <strong>100% ETH reserves</strong>.</span
+            >
+          </p>
+        </section>
+
+        <section class="panel" id="philosophy">
+          <h2><span class="i18n-zh">核心哲学</span><span class="i18n-en">Core philosophy</span></h2>
+          <ul>
+            <li>
+              <span class="i18n-zh">没有团队、没有预挖、没有治理、没有 roadmap</span
+              ><span class="i18n-en">No team, no premine, no governance, no roadmap</span>
+            </li>
+            <li>
+              <span class="i18n-zh">没有管理员权限、没有升级路径、没有中心化控制</span
+              ><span class="i18n-en">No admin keys, no upgrade path, no centralized control</span>
+            </li>
+            <li>
+              <span class="i18n-zh">一旦部署，合约立即进入无运营商（no operator）状态</span
+              ><span class="i18n-en">Once deployed, the contract immediately enters a no‑operator state</span>
+            </li>
+            <li>
+              <span class="i18n-zh">所有规则由数学和代码永久执行，任何人无法修改</span
+              ><span class="i18n-en">All rules run forever through math and code; no one can change them</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="panel" id="birth">
+          <h2><span class="i18n-zh">粒子如何诞生</span><span class="i18n-en">How particles emerge</span></h2>
+          <p>
+            <span class="i18n-zh"
+              >WEI 通过一条<strong>双曲凝聚曲线</strong>（Hyperbolic Coalescence Curve）在 <strong>Uniswap V4 Hook</strong> 上诞生。</span
+            ><span class="i18n-en"
+              >WEI is born on a <strong>Hyperbolic Coalescence Curve</strong> implemented as a <strong>Uniswap V4 Hook</strong>.</span
+            >
+          </p>
+          <p><span class="i18n-zh">用户只有两个动作：</span><span class="i18n-en">Users have only two actions:</span></p>
+          <div class="badge-row">
+            <span class="badge mint"
+              ><span class="i18n-zh">Mint — 存入 ETH → 释放粒子</span><span class="i18n-en">Mint — deposit ETH → release particles</span></span
+            >
+            <span class="badge burn"
+              ><span class="i18n-zh">Burn — 销毁 WEI → 返还 ETH</span><span class="i18n-en">Burn — destroy WEI → return ETH</span></span
+            >
+          </div>
+          <p>
+            <span class="i18n-zh">储备池是 WEI 的本体。每一枚流通的 WEI，背后都对应着真实、不可提取的 ETH。</span
+            ><span class="i18n-en">The reserve pool is the substance of WEI. Every circulating WEI maps to real, non‑extractable ETH.</span>
+          </p>
+        </section>
+
+        <section class="panel" id="curve">
+          <h2><span class="i18n-zh">凝聚曲线</span><span class="i18n-en">Condensation curve</span></h2>
+          <p class="formula-label">
+            <span class="i18n-zh">已释放 WEI 数量（当前 ETH 储备为 R）</span><span class="i18n-en">WEI released when ETH reserve is R</span>
+          </p>
+          <div class="math-block">
+            \[ M(R) = 10^{9} \cdot \frac{R}{R + 155.9} \]
+          </div>
+
+          <p class="formula-label">
+            <span class="i18n-zh">当前铸造价格（每枚 WEI，关于储备 R）</span><span class="i18n-en">Current mint price per WEI as a function of R</span>
+          </p>
+          <div class="math-block">
+            \[ p(R) = \frac{155.9}{10^{9}} \left( 1 + \frac{R}{155.9} \right)^{2} \]
+          </div>
+
+          <p class="formula-label">
+            <span class="i18n-zh">销毁 <span translate="no">b</span> 枚 WEI 可获得的 ETH</span><span class="i18n-en">ETH received when burning <span translate="no">b</span> WEI</span>
+          </p>
+          <div class="math-block">
+            \[ \Delta e(R,\, b) = 155.9 \cdot \left( \frac{M(R)}{K - M(R)} - \frac{M(R) - b}{K - M(R) + b} \right) \quad,\quad K = 10^{9} \]
+          </div>
+
+          <p>
+            <strong><span class="i18n-zh">曲线特性：</span><span class="i18n-en">Curve properties:</span></strong>
+          </p>
+          <ul>
+            <li>
+              <span class="i18n-zh">早期储备低时，粒子容易凝聚（成本低）</span
+              ><span class="i18n-en">Early on, low reserves make coalescence easy (low cost)</span>
+            </li>
+            <li>
+              <span class="i18n-zh">随着储备增加，凝聚难度加速上升</span><span class="i18n-en">As reserves grow, difficulty rises sharply</span>
+            </li>
+            <li>
+              <span class="i18n-zh">当储备达到一定规模后，铸造成本极高，发行自然停止</span
+              ><span class="i18n-en">At scale, mint cost becomes prohibitive and issuance stops naturally</span>
+            </li>
+            <li>
+              <span class="i18n-zh">理论最大释放量 10 亿枚；实际可达量接近约 9.9 亿枚</span
+              ><span class="i18n-en">Theoretical max release 1B tokens; practical ceiling ~990M</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="panel" id="blackhole">
+          <h2><span class="i18n-zh">黑洞机制</span><span class="i18n-en">Black hole mechanism</span></h2>
+          <p>
+            <span class="i18n-zh"
+              >每一次 Mint 或 Burn，收取 <strong>0.1559%</strong> 协议费，<strong>100%</strong> 直接永久燃烧（打入黑洞），不进入储备。</span
+            ><span class="i18n-en"
+              >Each Mint or Burn charges a <strong>0.1559%</strong> protocol fee; <strong>100%</strong> is burned permanently (sent to the black hole), never to reserves.</span
+            >
+          </p>
+          <table class="simple">
+            <thead>
+              <tr>
+                <th><span class="i18n-zh">行为</span><span class="i18n-en">Action</span></th>
+                <th><span class="i18n-zh">发生什么</span><span class="i18n-en">What happens</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge mint" style="border: none; padding: 0; background: none">Mint</span></td>
+                <td>
+                  <span class="i18n-zh">部分 WEI 直接被烧入黑洞（协议费路径）</span
+                  ><span class="i18n-en">A portion of WEI is burned straight to the black hole (fee path)</span>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="badge burn" style="border: none; padding: 0; background: none">Burn</span></td>
+                <td>
+                  <span class="i18n-zh">对应比例的 WEI 被直接烧入黑洞（协议费路径）</span
+                  ><span class="i18n-en">A proportional share of WEI is burned to the black hole (fee path)</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <span class="i18n-zh"
+              >这一机制让每一次交互都真实减少 WEI 总供应。<strong>10 亿</strong>是规则，<strong>燃烧</strong>是现实：最终流通量将自然低于 10 亿枚。</span
+            ><span class="i18n-en"
+              >Every interaction reduces WEI supply in practice. <strong>One billion</strong> is the rule; <strong>burning</strong> is reality—circulating supply will fall below 1B.</span
+            >
+          </p>
+        </section>
+
+        <section class="panel" id="reserve">
+          <h2><span class="i18n-zh">储备即真理</span><span class="i18n-en">Reserves are truth</span></h2>
+          <p>
+            <span class="i18n-zh">储备池 100% 由用户存入的 ETH 组成。没有合成资产，没有杠杆，没有任何隐藏操作。</span
+            ><span class="i18n-en">The pool is 100% user‑deposited ETH. No synthetics, no leverage, no hidden operations.</span>
+          </p>
+          <p>
+            <span class="i18n-zh">所有储备可在链上实时验证——这就是 WEI 价值的唯一锚定。</span
+            ><span class="i18n-en">All reserves are verifiable on‑chain—the sole anchor of WEI’s value.</span>
+          </p>
+
+          <hr class="sep" />
+
+          <h2 id="evolution"><span class="i18n-zh">交易演化</span><span class="i18n-en">Trading evolution</span></h2>
+          <ul>
+            <li>
+              <strong><span class="i18n-zh">早期：</span><span class="i18n-en">Early:</span></strong>
+              <span class="i18n-zh">只能通过 Hook 直接 Mint / Burn</span><span class="i18n-en">Mint / Burn only through the Hook</span>
+            </li>
+            <li>
+              <strong><span class="i18n-zh">成熟期：</span><span class="i18n-en">Mature:</span></strong>
+              <span class="i18n-zh"
+                >二级 Uniswap V4 池成为主要交易场所；Hook 作为最后买家与最后卖家始终存在。官网仅提供直接与曲线交互的通道，不做额外路由或诱导，让用户纯粹感受粒子的数学意义。</span
+              ><span class="i18n-en"
+                >Secondary Uniswap V4 pools dominate trading; the Hook remains the ultimate buyer and seller. The site exposes only direct curve interaction—no extra routing—so users feel the particle math plainly.</span
+              >
+            </li>
+          </ul>
+
+          <hr class="sep" />
+
+          <h2 id="code-eternal"><span class="i18n-zh">代码即永恒</span><span class="i18n-en">Code is eternal</span></h2>
+          <p>
+            <span class="i18n-zh">我们未预铸任何 WEI。部署完成后，所有权限立即放弃。</span
+            ><span class="i18n-en">We premine no WEI. After deployment, all privileges are renounced.</span>
+          </p>
+          <p>
+            <span class="i18n-zh">即使创造它的人全部消失，WEI 仍将以完全相同的规则继续运行。</span
+            ><span class="i18n-en">Even if every creator disappears, WEI keeps running under the same rules.</span>
+          </p>
+        </section>
+
+        <section class="manifesto panel" id="manifesto">
+          <p><span class="i18n-zh">这就是 WEI 的全部意义：</span><span class="i18n-en">That is all WEI means:</span></p>
+          <p><span class="i18n-zh">最小的粒子，最大的自治。</span><span class="i18n-en">The smallest particle; the greatest autonomy.</span></p>
+          <p class="en-line">
+            <span class="i18n-zh">10<sup>9</sup> wei = 1 gwei。每一次凝聚，都是对 Ethereum 本质的致敬。</span
+            ><span class="i18n-en">10<sup>9</sup> wei = 1 gwei. Every coalescence honors Ethereum’s essence.</span>
+          </p>
+          <p class="en-line">Mint. Burn. Let the particles run.</p>
+        </section>
+
+        <section class="panel" id="contract">
+          <h2><span class="i18n-zh">合约信息</span><span class="i18n-en">Contract info</span></h2>
+          <p style="color: var(--muted); font-size: 13px; margin-top: 0">
+            <span class="i18n-zh">（部署后更新）</span><span class="i18n-en">(Update after deployment)</span>
+          </p>
+          <dl class="contract-grid">
+            <div>
+              <dt>Token</dt>
+              <dd><span class="i18n-zh">待部署</span><span class="i18n-en">TBD</span></dd>
+            </div>
+            <div>
+              <dt>Hook</dt>
+              <dd><span class="i18n-zh">待部署</span><span class="i18n-en">TBD</span></dd>
+            </div>
+            <div>
+              <dt>PoolManager</dt>
+              <dd class="address">0x000000000004444c5dc75cB358380D2e3dE08A90</dd>
+            </div>
+          </dl>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <span class="i18n-zh">WEI · 链上粒子 · 仅供研究与社区传播</span><span class="i18n-en">WEI · On‑chain particles · Research &amp; community</span>
+    </footer>
+
+    <script>
+      (function () {
+        var KEY = "wei-whitepaper-lang";
+        function applyLang(lang) {
+          document.documentElement.lang = lang;
+          if (lang === "zh-CN") {
+            document.title = "WEI — 白皮书";
+          } else {
+            document.title = "WEI — Whitepaper";
+          }
+          try {
+            localStorage.setItem(KEY, lang);
+          } catch (e) {}
+        }
+
+        function initLang() {
+          var saved = null;
+          try {
+            saved = localStorage.getItem(KEY);
+          } catch (e) {}
+          if (saved === "en" || saved === "zh-CN") {
+            applyLang(saved);
+          } else {
+            applyLang(document.documentElement.lang || "zh-CN");
+          }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          initLang();
+
+          var btn = document.getElementById("lang-toggle");
+          if (btn) {
+            function syncLangButton() {
+              var zh = document.documentElement.lang !== "en";
+              btn.setAttribute("aria-pressed", zh ? "true" : "false");
+              btn.setAttribute("aria-label", zh ? "当前：中文，切换为 English" : "Current: English, switch to 中文");
+            }
+            syncLangButton();
+            btn.addEventListener("click", function () {
+              var next = document.documentElement.lang === "en" ? "zh-CN" : "en";
+              applyLang(next);
+              syncLangButton();
+            });
+          }
+
+          if (typeof renderMathInElement !== "undefined") {
+            renderMathInElement(document.body, {
+              delimiters: [
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\(", right: "\\)", display: false },
+              ],
+              throwOnError: false,
+            });
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
