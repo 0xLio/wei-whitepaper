@@ -422,6 +422,13 @@
       .wei-col-table tbody tr:nth-child(even) {
         background: rgba(255, 255, 255, 0.55);
       }
+      .wei-inline-metric {
+        white-space: nowrap;
+        text-align: right;
+      }
+      .wei-inline-metric .wei-val-sub {
+        margin-left: 6px;
+      }
       .wei-col-table td .wei-val-stack {
         display: flex;
         flex-direction: column;
@@ -626,7 +633,7 @@
                       <th scope="row">
                         <abbr class="wei-abbr" title="Fully diluted valuation at max WEI supply"><span class="i18n-en">FDV</span><span class="i18n-zh">完全稀释估值</span></abbr>
                       </th>
-                      <td>$356,962</td>
+                      <td>$357k</td>
                     </tr>
                     <tr>
                       <th scope="row">
@@ -668,20 +675,8 @@
                           ><span class="i18n-en">Black hole</span><span class="i18n-zh">黑洞销毁</span></abbr
                         >
                       </th>
-                      <td>
-                        <div class="wei-val-stack">
-                          <span>1,204,558 WEI</span>
-                          <span class="wei-val-sub"><span class="i18n-en">≈ $431</span><span class="i18n-zh">约 $431</span></span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><span class="i18n-en">Burnt fees</span><span class="i18n-zh">已销毁手续费</span></th>
-                      <td>
-                        <div class="wei-val-stack">
-                          <span>0.0001 ETH</span>
-                          <span class="wei-val-sub">$0</span>
-                        </div>
+                      <td class="wei-inline-metric">
+                        <span>1.20M WEI</span><span class="wei-val-sub">$431</span>
                       </td>
                     </tr>
                   </tbody>
