@@ -337,7 +337,7 @@
         }
       }
 
-      /* WEI DATA — single bordered sheet (metric | value) */
+      /* WEI DATA — three columns (Activity | Valuation & Price | Reserve) */
       .wei-data-panel-wrap {
         padding-bottom: 0;
       }
@@ -350,71 +350,79 @@
         margin-bottom: -17px;
         width: calc(100% + 34px);
         border-top: 1px solid var(--line);
-        border-left: none;
-        border-right: none;
-        border-bottom: none;
+        background: #fdfcfa;
       }
       .wei-data-scroll {
         overflow-x: auto;
         margin-top: 0;
-        background: #fdfcfa;
       }
-      .wei-data-sheet {
+      .wei-data-cols {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        min-width: min(100%, 660px);
+      }
+      @media (max-width: 900px) {
+        .wei-data-cols {
+          grid-template-columns: 1fr;
+        }
+        .wei-data-col {
+          border-right: none !important;
+          border-bottom: 1px solid var(--line);
+        }
+        .wei-data-col:last-child {
+          border-bottom: none;
+        }
+      }
+      .wei-data-col {
+        border-right: 1px solid var(--line);
+        min-width: 0;
+      }
+      .wei-data-col:last-child {
+        border-right: none;
+      }
+      .wei-col-table {
         width: 100%;
-        min-width: 420px;
         border-collapse: collapse;
-        font-size: 13px;
+        font-size: 12px;
         font-variant-numeric: tabular-nums;
       }
-      .wei-data-sheet thead th {
-        padding: 11px 14px;
+      .wei-col-table caption {
+        caption-side: top;
         text-align: left;
+        padding: 10px 12px;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--muted);
-        background: linear-gradient(180deg, #f4faf8 0%, #eef5f2 100%);
-        border-bottom: 1px solid var(--line);
-      }
-      .wei-data-sheet thead th:last-child {
-        text-align: right;
-      }
-      .wei-data-sheet tbody tr.wei-data-sep td {
-        padding: 9px 14px;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
         color: var(--fg);
-        background: rgba(72, 192, 164, 0.14);
+        background: rgba(72, 192, 164, 0.16);
         border-bottom: 1px solid var(--line);
       }
-      .wei-data-sheet tbody th {
-        padding: 11px 14px;
+      .wei-col-table tbody th {
+        padding: 10px 10px 10px 12px;
         font-weight: 500;
         color: var(--muted);
         text-align: left;
-        border-bottom: 1px solid rgba(200, 196, 188, 0.65);
+        border-bottom: 1px solid rgba(200, 196, 188, 0.55);
         vertical-align: middle;
-        width: 52%;
+        width: 50%;
       }
-      .wei-data-sheet tbody td {
-        padding: 11px 14px;
+      .wei-col-table tbody td {
+        padding: 10px 12px 10px 8px;
         font-weight: 600;
         text-align: right;
-        border-bottom: 1px solid rgba(200, 196, 188, 0.65);
+        border-bottom: 1px solid rgba(200, 196, 188, 0.55);
         vertical-align: middle;
         color: var(--fg);
       }
-      .wei-data-sheet tbody tr:last-child th,
-      .wei-data-sheet tbody tr:last-child td {
+      .wei-col-table tbody tr:last-child th,
+      .wei-col-table tbody tr:last-child td {
         border-bottom: none;
       }
-      .wei-data-sheet tbody tr.data-alt {
-        background: rgba(255, 255, 255, 0.65);
+      .wei-col-table tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.55);
       }
-      .wei-data-sheet td .wei-val-stack {
+      .wei-col-table td .wei-val-stack {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -429,7 +437,7 @@
         color: #ff3366;
         font-weight: 700;
       }
-      .wei-data-sheet sub {
+      .wei-col-table sub {
         font-size: 0.65em;
         font-weight: 600;
       }
@@ -573,90 +581,86 @@
         <div class="panel wei-data-panel-wrap">
           <h3><span class="i18n-en">WEI Data</span><span class="i18n-zh">WEI 数据</span></h3>
           <div class="wei-data-scroll">
-            <table class="wei-data-sheet">
-              <thead>
-                <tr>
-                  <th scope="col"><span class="i18n-en">Metric</span><span class="i18n-zh">指标</span></th>
-                  <th scope="col"><span class="i18n-en">Value</span><span class="i18n-zh">数值</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="wei-data-sep">
-                  <td colspan="2"><span class="i18n-en">Supply</span><span class="i18n-zh">供应</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="i18n-en">WEI total</span><span class="i18n-zh">WEI 总量</span></th>
-                  <td>1,000,000,000</td>
-                </tr>
-                <tr class="data-alt">
-                  <th scope="row"><span class="i18n-en">WEI minted</span><span class="i18n-zh">已铸造 WEI</span></th>
-                  <td>327,268</td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="i18n-en">Holders</span><span class="i18n-zh">持有者</span></th>
-                  <td>2</td>
-                </tr>
-                <tr class="wei-data-sep">
-                  <td colspan="2"><span class="i18n-en">Valuation</span><span class="i18n-zh">估值</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="i18n-en">Mcap (fdv)</span><span class="i18n-zh">市值（FDV）</span></th>
-                  <td>$356,962</td>
-                </tr>
-                <tr class="data-alt">
-                  <th scope="row"><span class="i18n-en">Mcap (circ)</span><span class="i18n-zh">市值（流通）</span></th>
-                  <td>$117</td>
-                </tr>
-                <tr class="wei-data-sep">
-                  <td colspan="2"><span class="i18n-en">Price</span><span class="i18n-zh">价格</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="i18n-en">Price</span><span class="i18n-zh">价格</span></th>
-                  <td class="wei-price">$0.000357</td>
-                </tr>
-                <tr class="wei-data-sep">
-                  <td colspan="2"><span class="i18n-en">Activity</span><span class="i18n-zh">活动</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="i18n-en">Vol 24h</span><span class="i18n-zh">24h 成交额</span></th>
-                  <td>0.00 ETH</td>
-                </tr>
-                <tr class="data-alt">
-                  <th scope="row"><span class="i18n-en">Txns 24h</span><span class="i18n-zh">24h 笔数</span></th>
-                  <td>2</td>
-                </tr>
-                <tr class="wei-data-sep">
-                  <td colspan="2"><span class="i18n-en">Reserve</span><span class="i18n-zh">储备</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="i18n-en">ETH reserve</span><span class="i18n-zh">ETH 储备</span></th>
-                  <td>
-                    <div class="wei-val-stack">
-                      <span>0.05 ETH</span>
-                      <span class="wei-val-sub">$0.00M</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr class="data-alt">
-                  <th scope="row"><span class="i18n-en">Backing / WEI</span><span class="i18n-zh">每 WEI 支撑</span></th>
-                  <td>
-                    <div class="wei-val-stack">
-                      <span>0.0<sub>6</sub>156 ETH</span>
-                      <span class="wei-val-sub">$0.00035714</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="i18n-en">Burnt fees</span><span class="i18n-zh">已销毁手续费</span></th>
-                  <td>
-                    <div class="wei-val-stack">
-                      <span>0.0001 ETH</span>
-                      <span class="wei-val-sub">$0</span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="wei-data-cols">
+              <div class="wei-data-col">
+                <table class="wei-col-table">
+                  <caption>
+                    <span class="i18n-en">Activity</span><span class="i18n-zh">活动</span>
+                  </caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Holders</span><span class="i18n-zh">持有者</span></th>
+                      <td>2</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Vol 24h</span><span class="i18n-zh">24h 成交额</span></th>
+                      <td>0.00 ETH</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Txns 24h</span><span class="i18n-zh">24h 笔数</span></th>
+                      <td>2</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="wei-data-col">
+                <table class="wei-col-table">
+                  <caption>
+                    <span class="i18n-en">Valuation &amp; price</span><span class="i18n-zh">估值与价格</span>
+                  </caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Mcap (fdv)</span><span class="i18n-zh">市值（FDV）</span></th>
+                      <td>$356,962</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Mcap (circ)</span><span class="i18n-zh">市值（流通）</span></th>
+                      <td>$117</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Price</span><span class="i18n-zh">价格</span></th>
+                      <td class="wei-price">$0.000357</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="wei-data-col">
+                <table class="wei-col-table">
+                  <caption>
+                    <span class="i18n-en">Reserve</span><span class="i18n-zh">储备</span>
+                  </caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">ETH reserve</span><span class="i18n-zh">ETH 储备</span></th>
+                      <td>
+                        <div class="wei-val-stack">
+                          <span>0.05 ETH</span>
+                          <span class="wei-val-sub">$0.00M</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Backing / WEI</span><span class="i18n-zh">每 WEI 支撑</span></th>
+                      <td>
+                        <div class="wei-val-stack">
+                          <span>0.0<sub>6</sub>156 ETH</span>
+                          <span class="wei-val-sub">$0.00035714</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Burnt fees</span><span class="i18n-zh">已销毁手续费</span></th>
+                      <td>
+                        <div class="wei-val-stack">
+                          <span>0.0001 ETH</span>
+                          <span class="wei-val-sub">$0</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
         <div class="panel">
