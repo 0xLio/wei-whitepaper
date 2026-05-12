@@ -441,6 +441,11 @@
         font-size: 0.65em;
         font-weight: 600;
       }
+      .wei-abbr {
+        text-decoration: underline dotted;
+        text-underline-offset: 3px;
+        cursor: help;
+      }
 
       .flows-chart {
         height: 200px;
@@ -589,15 +594,15 @@
                   </caption>
                   <tbody>
                     <tr>
-                      <th scope="row"><span class="i18n-en">Holders</span><span class="i18n-zh">持有者</span></th>
-                      <td>2</td>
-                    </tr>
-                    <tr>
                       <th scope="row"><span class="i18n-en">Vol 24h</span><span class="i18n-zh">24h 成交额</span></th>
                       <td>0.00 ETH</td>
                     </tr>
                     <tr>
                       <th scope="row"><span class="i18n-en">Txns 24h</span><span class="i18n-zh">24h 笔数</span></th>
+                      <td>2</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><span class="i18n-en">Holders</span><span class="i18n-zh">持有者</span></th>
                       <td>2</td>
                     </tr>
                   </tbody>
@@ -606,20 +611,24 @@
               <div class="wei-data-col">
                 <table class="wei-col-table">
                   <caption>
-                    <span class="i18n-en">Valuation &amp; price</span><span class="i18n-zh">估值与价格</span>
+                    <span class="i18n-en">Price &amp; valuation</span><span class="i18n-zh">价格 · 估值</span>
                   </caption>
                   <tbody>
                     <tr>
-                      <th scope="row"><span class="i18n-en">Mcap (fdv)</span><span class="i18n-zh">市值（FDV）</span></th>
+                      <th scope="row"><span class="i18n-en">Spot price</span><span class="i18n-zh">现价（Spot）</span></th>
+                      <td class="wei-price">$0.000357</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <abbr class="wei-abbr" title="Fully diluted valuation at max WEI supply"><span class="i18n-en">FDV</span><span class="i18n-zh">完全稀释估值</span></abbr>
+                      </th>
                       <td>$356,962</td>
                     </tr>
                     <tr>
-                      <th scope="row"><span class="i18n-en">Mcap (circ)</span><span class="i18n-zh">市值（流通）</span></th>
+                      <th scope="row">
+                        <abbr class="wei-abbr" title="Market cap of circulating WEI only"><span class="i18n-en">Circulating cap</span><span class="i18n-zh">流通市值</span></abbr>
+                      </th>
                       <td>$117</td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><span class="i18n-en">Price</span><span class="i18n-zh">价格</span></th>
-                      <td class="wei-price">$0.000357</td>
                     </tr>
                   </tbody>
                 </table>
@@ -640,7 +649,9 @@
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><span class="i18n-en">Backing / WEI</span><span class="i18n-zh">每 WEI 支撑</span></th>
+                      <th scope="row">
+                        <abbr class="wei-abbr" title="ETH reserve implicitly backing each 1 WEI"><span class="i18n-en">Reserve per WEI</span><span class="i18n-zh">单 WEI 对应储备（ETH）</span></abbr>
+                      </th>
                       <td>
                         <div class="wei-val-stack">
                           <span>0.0<sub>6</sub>156 ETH</span>
