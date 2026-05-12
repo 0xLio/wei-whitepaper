@@ -437,6 +437,14 @@
         color: #ff3366;
         font-weight: 700;
       }
+      .wei-mint-price {
+        color: var(--mint);
+        font-weight: 700;
+      }
+      .wei-burn-price {
+        color: var(--burn);
+        font-weight: 700;
+      }
       .wei-col-table sub {
         font-size: 0.65em;
         font-weight: 600;
@@ -611,13 +619,9 @@
               <div class="wei-data-col">
                 <table class="wei-col-table">
                   <caption>
-                    <span class="i18n-en">Price &amp; valuation</span><span class="i18n-zh">价格 · 估值</span>
+                    <span class="i18n-en">FDV &amp; curve prices</span><span class="i18n-zh">FDV · 曲线价格</span>
                   </caption>
                   <tbody>
-                    <tr>
-                      <th scope="row"><span class="i18n-en">Spot price</span><span class="i18n-zh">现价（Spot）</span></th>
-                      <td class="wei-price">$0.000357</td>
-                    </tr>
                     <tr>
                       <th scope="row">
                         <abbr class="wei-abbr" title="Fully diluted valuation at max WEI supply"><span class="i18n-en">FDV</span><span class="i18n-zh">完全稀释估值</span></abbr>
@@ -626,9 +630,19 @@
                     </tr>
                     <tr>
                       <th scope="row">
-                        <abbr class="wei-abbr" title="Market cap of circulating WEI only"><span class="i18n-en">Circulating cap</span><span class="i18n-zh">流通市值</span></abbr>
+                        <abbr class="wei-abbr" title="Marginal USD cost to mint the next WEI at current reserve"
+                          ><span class="i18n-en">Mint price</span><span class="i18n-zh">铸造价</span></abbr
+                        >
                       </th>
-                      <td>$117</td>
+                      <td class="wei-mint-price">$0.000358</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <abbr class="wei-abbr" title="Marginal USD received when burning the next WEI at current reserve"
+                          ><span class="i18n-en">Burn price</span><span class="i18n-zh">销毁价</span></abbr
+                        >
+                      </th>
+                      <td class="wei-burn-price">$0.000356</td>
                     </tr>
                   </tbody>
                 </table>
@@ -650,12 +664,14 @@
                     </tr>
                     <tr>
                       <th scope="row">
-                        <abbr class="wei-abbr" title="ETH reserve implicitly backing each 1 WEI"><span class="i18n-en">Reserve per WEI</span><span class="i18n-zh">单 WEI 对应储备（ETH）</span></abbr>
+                        <abbr class="wei-abbr" title="Cumulative WEI permanently burned via the protocol fee (black hole)"
+                          ><span class="i18n-en">WEI to black hole</span><span class="i18n-zh">打入黑洞的 WEI</span></abbr
+                        >
                       </th>
                       <td>
                         <div class="wei-val-stack">
-                          <span>0.0<sub>6</sub>156 ETH</span>
-                          <span class="wei-val-sub">$0.00035714</span>
+                          <span>1,204,558 WEI</span>
+                          <span class="wei-val-sub"><span class="i18n-en">protocol fees → burn</span><span class="i18n-zh">协议费永久燃烧</span></span>
                         </div>
                       </td>
                     </tr>
